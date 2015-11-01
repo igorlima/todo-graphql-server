@@ -8,7 +8,7 @@ import {
   GraphQLSchema
 } from 'graphql';
 
-const TODOs = [];
+var TODOs = [];
 
 var TodoType = new GraphQLObjectType({
   name: 'todo',
@@ -84,12 +84,7 @@ var MutationDestroy = {
     }
   },
   resolve: (root, {id}) => {
-    const todo = TODOs.filter((todo) => todo.id !== id)[0]
-    const index = TODOs.indexOf(todo)
-    if (index !== -1) {
-      TODOs.splice(index, 1)
-    }
-    return TODOs;
+    return TODOs = TODOs.filter((todo) => todo.id !== id);
   }
 };
 
@@ -112,12 +107,7 @@ var MutationClearCompleted = {
   type: new GraphQLList(TodoType),
   description: 'Clear completed',
   resolve: () => {
-    const todos = TODOs.filter((todo) => todo.completed)
-    todos.forEach((todo) => {
-      var index = TODOs.indexOf(todo)
-      TODOs.splice(index, 1)
-    });
-    return TODOs;
+    return TODOs = TODOs.filter((todo) => !todo.completed)
   }
 };
 

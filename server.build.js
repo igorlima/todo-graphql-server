@@ -174,14 +174,9 @@ module.exports =
 	  resolve: function resolve(root, _ref3) {
 	    var id = _ref3.id;
 
-	    var todo = TODOs.filter(function (todo) {
+	    return TODOs = TODOs.filter(function (todo) {
 	      return todo.id !== id;
-	    })[0];
-	    var index = TODOs.indexOf(todo);
-	    if (index !== -1) {
-	      TODOs.splice(index, 1);
-	    }
-	    return TODOs;
+	    });
 	  }
 	};
 
@@ -208,14 +203,9 @@ module.exports =
 	  type: new _graphql.GraphQLList(TodoType),
 	  description: 'Clear completed',
 	  resolve: function resolve() {
-	    var todos = TODOs.filter(function (todo) {
-	      return todo.completed;
+	    return TODOs = TODOs.filter(function (todo) {
+	      return !todo.completed;
 	    });
-	    todos.forEach(function (todo) {
-	      var index = TODOs.indexOf(todo);
-	      TODOs.splice(index, 1);
-	    });
-	    return TODOs;
 	  }
 	};
 
