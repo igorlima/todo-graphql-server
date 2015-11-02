@@ -1,3 +1,4 @@
 node_modules/
 src/server/data/schema.json
 .DS_Store
+npm-debug.log
