@@ -58,7 +58,82 @@
             Designed to build client applications by providing [an intuitive and flexible syntax](https://facebook.github.io/graphql/#sec-Overview).
         </script>
       </section>
+      <section data-markdown>
+        <script type="text/template">
+            This makes retrieving data from the server more efficient for the client.
+        </script>
+      </section>
     </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          For instance, imagine a GraphQL request that will receive a `title` and an `id` from [an implementation of GraphQL](implementation of GraphQL).
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ```
+query Query {
+  todos {
+    id,
+    title
+  }
+}
+          ```
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          Which produces the resulting data (in JSON):
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ```
+{
+  "data": {
+    "todos": [
+      {
+        "id": 1446412739542,
+        "title": "Read emails"
+      },
+      {
+        "id": 1446412740883,
+        "title": "Buy orange"
+      },
+      {
+        "id": 1446412741215,
+        "title": "Fix garbage"
+      }
+    ]
+  }
+}
+          ```
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        The response format is described in the query and defined by the client instead of the server.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        **GraphQL queries are like JSON objects without properties.**
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        It's important to mention that GraphQL **is not language specific**, it's just a specification between the client and the server.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        Any client should be able to communicate with any server if they speak the common language.
+        </script>
+      </section>
+    </section>
+
 
   </div>
 
