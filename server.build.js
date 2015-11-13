@@ -60,7 +60,11 @@ module.exports =
 	var _expressGraphql2 = _interopRequireDefault(_expressGraphql);
 
 	var app = (0, _express2['default'])();
-	app.use('/', (0, _expressGraphql2['default'])({ schema: _schema.Schema, pretty: true }));
+	app.use('/', (0, _expressGraphql2['default'])({
+	  schema: _schema.Schema,
+	  pretty: true,
+	  graphiql: true
+	}));
 	app.listen(process.env.PORT || 8080, function (err) {
 	  if (err) return console.error(err);
 	  console.log('GraphQL Server is now running on localhost:' + (process.env.PORT || 8080));

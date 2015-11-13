@@ -22,7 +22,7 @@
   "homepage": "https://github.com/igorlima/todo-graphql-server#readme",
   "dependencies": {
     "express": "^4.13.3",
-    "express-graphql": "^0.3.0",
+    "express-graphql": "^0.4.4",
     "graphql": "^0.4.12"
   },
   "devDependencies": {
