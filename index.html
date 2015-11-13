@@ -43,8 +43,14 @@
 
     <section>
       <section data-markdown>
+        ## GraphQL Overview
+
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
         <script type="text/template">
-            ## GraphQL
             GraphQL allows us to define a query which provides a common interface between the client and the server for data fetching and manipulations.
         </script>
       </section>
@@ -130,6 +136,141 @@ query Query {
       <section data-markdown>
         <script type="text/template">
         Any client should be able to communicate with any server if they speak the common language.
+        </script>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+        ## GraphQL.js
+        [GraphQL.js](https://github.com/graphql/graphql-js) is a reference implementation of GraphQL for JavaScript
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        It provides two important capabilities:
+
+        * building a type schema
+        * and serving queries against that type schema.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        First, it's needed to build a GraphQL type schema which maps to the code base.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+```js
+var TodoType = new graphql.GraphQLObjectType({
+  name: 'todo',
+  fields: function () {
+    return {
+      id: {
+        type: graphql.GraphQLInt
+      },
+      title: {
+        type: graphql.GraphQLString
+      },
+      completed: {
+        type: graphql.GraphQLBoolean
+      }
+    }
+  }
+});
+var queryType = new graphql.GraphQLObjectType({
+  name: 'Query',
+  fields: function () {
+    return {
+      todos: {
+        type: new graphql.GraphQLList(TodoType),
+        resolve: function () {
+          return TODOs;
+        }
+      }
+    }
+  }
+});
+module.exports = new graphql.GraphQLSchema({
+  query: queryType
+});
+```
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        This defines a simple schema with one type and a list of `todos` - which each elements has three fields - that resolves to a fixed value. 
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+         Second, it's needed to serve the result of a query against that type schema.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+```js
+graphql(Schema, query).then( function(result) {
+  console.log(JSON.stringify(result));
+  // Prints
+  // {
+  //   "data":{
+  //     "todos":[
+  //       {
+  //         "id":1446412739542,
+  //         "title":"Read emails",
+  //         "completed":false
+  //       },
+  //       {
+  //         "id":1446412740883,
+  //         "title":"Buy orange",
+  //         "completed":true
+  //       }
+  //     ]
+  //   }
+  // }
+});
+var app = express()
+  .use('/', graphQLHTTP({ schema: Schema, pretty: true }))
+  .listen(8080, function (err) {
+    console.log('GraphQL Server is now running on localhost:8080');
+  });
+```
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        Thus, this will also work:
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+```sh
+$ curl -XPOST -H "Content-Type:application/graphql"  -d 'query { todos { title } }' http://localhost:8080
+{
+  "data": {
+    "todos": [
+      {
+        "title": "Read emails"
+      },
+      {
+        "title": "Buy orange"
+      }
+    ]
+  }
+}
+```
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        An important thing about the schema is that it makes no assumptions about how the data is stored, it only describes what the consumer of the API can use.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+        The way the data is stored and represented is an implementation detail.
         </script>
       </section>
     </section>
