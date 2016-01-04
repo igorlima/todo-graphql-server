@@ -1,12 +1,11 @@
-import {
-  GraphQLObjectType,
-  GraphQLInt,
-  GraphQLBoolean,
-  GraphQLString,
-  GraphQLList,
-  GraphQLNonNull,
-  GraphQLSchema
-} from 'graphql';
+var graphql = require('graphql')
+var GraphQLObjectType = graphql.GraphQLObjectType
+var GraphQLInt = graphql.GraphQLInt
+var GraphQLBoolean = graphql.GraphQLBoolean
+var GraphQLString = graphql.GraphQLString
+var GraphQLList = graphql.GraphQLList
+var GraphQLNonNull = graphql.GraphQLNonNull
+var GraphQLSchema = graphql.GraphQLSchema
 
 var TODOs = [];
 
@@ -47,10 +46,10 @@ var MutationAdd = {
       type: new GraphQLNonNull(GraphQLString)
     }
   },
-  resolve: (root, {title}) => {
+  resolve: (root, args) => {
     TODOs.push({
       id: (new Date()).getTime(),
-      title: title,
+      title: args.title,
       completed: false
     });
     return TODOs;
@@ -66,9 +65,9 @@ var MutationToggle = {
       type: new GraphQLNonNull(GraphQLInt)
     }
   },
-  resolve: (root, {id}) => {
+  resolve: (root, args) => {
     TODOs
-      .filter((todo) => todo.id === id)
+      .filter((todo) => todo.id === args.id)
       .forEach((todo) => todo.completed = !todo.completed)
     return TODOs;
   }
@@ -83,8 +82,8 @@ var MutationDestroy = {
       type: new GraphQLNonNull(GraphQLInt)
     }
   },
-  resolve: (root, {id}) => {
-    return TODOs = TODOs.filter((todo) => todo.id !== id);
+  resolve: (root, args) => {
+    return TODOs = TODOs.filter((todo) => todo.id !== args.id);
   }
 };
 
@@ -97,8 +96,8 @@ var MutationToggleAll = {
       type: new GraphQLNonNull(GraphQLBoolean)
     }
   },
-  resolve: (root, {checked}) => {
-    TODOs.forEach((todo) => todo.completed = checked)
+  resolve: (root, args) => {
+    TODOs.forEach((todo) => todo.completed = args.checked)
     return TODOs;
   }
 };
@@ -124,10 +123,10 @@ var MutationSave = {
       type: new GraphQLNonNull(GraphQLString)
     }
   },
-  resolve: (root, {id, title}) => {
+  resolve: (root, args) => {
     TODOs
-      .filter((todo) => todo.id === id)
-      .forEach((todo) => todo.title = title)
+      .filter((todo) => todo.id === args.id)
+      .forEach((todo) => todo.title = args.title)
     return TODOs
   }
 }
@@ -144,7 +143,7 @@ var MutationType = new GraphQLObjectType({
   }
 });
 
-export var Schema = new GraphQLSchema({
+module.exports = new GraphQLSchema({
   query: QueryType,
   mutation: MutationType
 });
